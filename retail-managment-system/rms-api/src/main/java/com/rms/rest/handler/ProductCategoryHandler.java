@@ -4,10 +4,7 @@ import com.rms.domain.core.ProductCategory;
 import com.rms.domain.investor.Transaction;
 import com.rms.rest.dto.ProductCategoryDto;
 import com.rms.rest.dto.common.PaginatedResultDto;
-import com.rms.rest.exception.ErrorCodes;
-import com.rms.rest.exception.ResourceNotFoundException;
-import com.rms.rest.exception.ResourceRelatedException;
-import com.rms.rest.exception.Response;
+import com.rms.rest.exception.*;
 import com.rms.rest.modelmapper.ProductCategoryMapper;
 import com.rms.rest.modelmapper.common.PaginationMapper;
 import com.rms.service.ProductCategoryService;
@@ -44,7 +41,15 @@ public class ProductCategoryHandler {
 
     public ResponseEntity<ProductCategoryDto> save(ProductCategoryDto productCategoryDto) {
         ProductCategory productCategory = mapper.toEntity(productCategoryDto);
-        productCategoryService.save(productCategory);
+        try {
+            productCategoryService.save(productCategory);
+        }catch (Exception e) {
+            boolean isDuplicated = productCategoryService.getByName( productCategory.getName()).isPresent();
+            if(isDuplicated){
+                throw new NonUniqueException( "category name", productCategory.getName());
+            }
+            else throw e;
+        }
         ProductCategoryDto dto = mapper.toDto(productCategory);
         return ResponseEntity.ok(dto);
     }

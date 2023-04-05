@@ -22,6 +22,9 @@ public class ProductCategoryService {
     public Optional<ProductCategory> getById(Integer id) {
         return productCategoryRepository.findById(id);
     }
+    public Optional<ProductCategory> getByName(String name) {
+        return productCategoryRepository.findByName(name);
+    }
 
     public ProductCategory save(ProductCategory category) {
         return productCategoryRepository.save(category);

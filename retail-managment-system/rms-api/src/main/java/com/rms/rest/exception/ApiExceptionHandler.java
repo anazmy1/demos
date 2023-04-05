@@ -131,6 +131,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
+    @ExceptionHandler( NonUniqueException.class)
+    protected ResponseEntity<Object> handleNonUniqueException(
+            NonUniqueException ex) {
 
+        List<String> details = new ArrayList<String>();
+        details.add(ex.getMessage());
 
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT,
+                ErrorCodes.CONFLICT.getCode(), LocalDateTime.now(), "unique constraint violated", details);
+
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
 }

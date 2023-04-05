@@ -5,7 +5,8 @@ public enum ErrorCodes {
     RELATED_RESOURCE("200", "Resource has a relations"),
     UPDATE_BLOCKED("300", "Update Blocked"),
 
-    PAYMENT_TYPE_NOT_VALID("301", "not valid");
+    PAYMENT_TYPE_NOT_VALID("301", "not valid"),
+    CONFLICT("409", "Conflict");
     private String code;
     private String desc;
 
