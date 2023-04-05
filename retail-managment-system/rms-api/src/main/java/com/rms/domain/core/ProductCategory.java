@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 public class ProductCategory extends JPAEntity {
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "status")
